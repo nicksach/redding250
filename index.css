@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-red: #400203;
+  --color-brand-gold: #C9A24D;
+  --color-brand-cream: #F6F1E7;
+  --color-brand-charcoal: #2B2B2B;
+}
