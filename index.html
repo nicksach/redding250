@@ -273,7 +273,7 @@
                       <a
                         href="/donate"
                         class="underline decoration-brand-gold underline-offset-4 hover:opacity-80 transition"
-                        onclick="gtag('event', 'click', { event_category: 'donation', event_label: 'donor_or_sponsor_text_link' });"
+                        onclick="return gtagDonate(event, 'donor_or_sponsor_text_link')"
                       >donor or sponsor</a>
                       and help bring the Greater Bridgeport Symphony to Redding for this historic community event.
                   </p>
@@ -339,7 +339,7 @@
                   <a
                     href="/donate"
                     class="inline-block bg-brand-gold text-brand-red font-semibold tracking-wide px-10 py-4 rounded-md text-lg shadow-sm hover:opacity-90 transition"
-                    onclick="gtag('event', 'click', { event_category: 'donation', event_label: 'donate_now_button' });"
+                    onclick="return gtagDonate(event, 'donor_or_sponsor_text_link')"
                   >
                     Donate Now
                   </a>
@@ -350,6 +350,7 @@
                       <a
                           href="mailto:sean@reddingnursery.com"
                           class="underline decoration-brand-gold underline-offset-4 hover:opacity-80 transition text-brand-charcoal"
+                          rel="noopener noreferrer"
                           onclick="gtag('event', 'click', { event_category: 'contact', event_label: 'email_link' });"
                       >sean@reddingnursery.com</a>.
                   </p>
@@ -381,6 +382,7 @@
                 <a
                   href="mailto:sean@reddingnursery.com"
                   class="block mt-1 hover:underline"
+                  rel="noopener noreferrer"
                   onclick="gtag('event', 'click', { event_category: 'contact', event_label: 'email_link' });"
                 >
                   sean@reddingnursery.com
@@ -423,6 +425,39 @@
           </div>
       </footer>
 
+    <script>
+        function gtagDonate(event, label) {
+            event.preventDefault();
+
+            var url = event.currentTarget.href;
+            var redirected = false;
+
+            function redirectOnce() {
+                if (redirected) return;
+                redirected = true;
+                window.location.href = url;
+            }
+
+            if (typeof gtag !== 'function') {
+                redirectOnce();
+                return false;
+            }
+
+            gtag('event', 'click', {
+                event_category: 'donation',
+                event_label: label
+            });
+
+            gtag('event', 'conversion', {
+                send_to: 'AW-980010278/PmVMCPiL8LMbEKaKp9MD',
+                event_callback: redirectOnce
+            });
+
+            setTimeout(redirectOnce, 800);
+
+            return false;
+        }
+    </script>
 
   </body>
 </html>
